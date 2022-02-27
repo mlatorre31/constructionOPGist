@@ -73,6 +73,8 @@ class EnterpriseToken < ApplicationRecord
            :issued_at,
            :starts_at,
            :expires_at,
+           :reprieve_days,
+           :reprieve_days_left,
            :restrictions,
            to: :token_object
 
@@ -90,7 +92,7 @@ class EnterpriseToken < ApplicationRecord
     RequestStore.delete :current_ee_token
   end
 
-  def expired?
+  def expired?(reprieve: true)
     false
   end
 
@@ -110,10 +112,10 @@ class EnterpriseToken < ApplicationRecord
   end
 
   def valid_token_object
-    errors.add(:encoded_token, :unreadable) unless load_token!
+    # errors.add(:encoded_token, :unreadable) unless load_token!
   end
 
   def valid_domain
-    errors.add :domain, :invalid if invalid_domain?
+    # errors.add :domain, :invalid if invalid_domain?
   end
 end
