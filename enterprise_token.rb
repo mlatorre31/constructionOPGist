@@ -1,4 +1,5 @@
 ############ REPLACE app/models/enterprise_token.rb in the source code with this file! ################
+############ also be sure to RESTART OpenProject after replacing the file.             ################
 ############ it doesn't show that enterprise mode is enabled in the settings, but all  ################
 ############ enterprise mode features, such as KanBan boards, are enabled.             ################
 
