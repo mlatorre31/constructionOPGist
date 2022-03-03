@@ -112,10 +112,10 @@ class EnterpriseToken < ApplicationRecord
   end
 
   def valid_token_object
-    # errors.add(:encoded_token, :unreadable) unless load_token!
+    errors.add(:encoded_token, :unreadable) unless load_token!
   end
 
   def valid_domain
-    # errors.add :domain, :invalid if invalid_domain?
+    errors.add :domain, :invalid if invalid_domain?
   end
 end
