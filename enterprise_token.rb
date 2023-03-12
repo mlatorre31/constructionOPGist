@@ -2,16 +2,15 @@
 ############ also be sure to RESTART OpenProject after replacing the file.             ################
 ############ it doesn't show that enterprise mode is enabled in the settings, but all  ################
 ############ enterprise mode features, such as KanBan boards, are enabled.             ################
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,7 +27,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 class EnterpriseToken < ApplicationRecord
   class << self
@@ -39,7 +38,7 @@ class EnterpriseToken < ApplicationRecord
     end
 
     def table_exists?
-      connection.data_source_exists? self.table_name
+      connection.data_source_exists? table_name
     end
 
     def allows_to?(action)
@@ -59,7 +58,7 @@ class EnterpriseToken < ApplicationRecord
     end
   end
 
-  validates_presence_of :encoded_token
+  validates :encoded_token, presence: true
   validate :valid_token_object
   validate :valid_domain
 
@@ -107,8 +106,8 @@ class EnterpriseToken < ApplicationRecord
 
   def load_token!
     @token_object = OpenProject::Token.import(encoded_token)
-  rescue OpenProject::Token::ImportError => error
-    Rails.logger.error "Failed to load EE token: #{error}"
+  rescue OpenProject::Token::ImportError => e
+    Rails.logger.error "Failed to load EE token: #{e}"
     nil
   end
 
