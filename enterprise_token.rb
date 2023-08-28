@@ -45,6 +45,10 @@ class EnterpriseToken < ApplicationRecord
       true
     end
 
+    def active?
+      true
+    end
+
     def show_banners?
       false
     end
